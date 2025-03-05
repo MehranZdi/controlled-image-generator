@@ -1,9 +1,13 @@
 from fastapi import FastAPI
 from fastapi import HTTPException
+from fastapi import UploadFile, File
 from diffusers import StableDiffusionPipeline
+from datetime import datetime
+from PIL import Image
 import torch
 import os
-from datetime import datetime
+import io
+
 
 app = FastAPI()
 
@@ -30,7 +34,7 @@ async def text_to_image(prompt: str):
         image.save(image_path)
 
         return {
-            "message": "Image was generated successfully.",
+            "message": "Image has been generated successfully.",
             "image_path": image_path,
             "prompt": prompt
             }
@@ -38,3 +42,16 @@ async def text_to_image(prompt: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
+
+@app.post("/sketch-to-image")
+async def sketch_to_image(sketch: UploadFile=File(...), prompt: str=""):
+    try:
+        image_data = await sketch.read()
+        sketch_image = Image.open(io.BytesIO(image_data)).convert("RGB")
+        generated_image = pipe(prompt, image=sketch_image).images[0]
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        image_path = f"static/generated_image_{timestamp}.png"
+        generated_image.save(image_path)
+        return {"message": "Image has been generated!"}
+    except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
