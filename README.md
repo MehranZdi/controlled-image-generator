@@ -10,7 +10,7 @@ This is a FastAPI-based image generation API powered by Stable Diffusion. It sup
 
 ## Docker Image
 
-A prebuilt Docker image is available on DockerHub:
+A prebuilt Docker image is available on Docker Hub:
 
 ```
 docker pull mehranzdi/controlled-image-api:latest
@@ -24,7 +24,7 @@ To run the API locally:
 
 - Python 3.12+
 - pip
-- GPU with CUDA support (recommended, in case of saving your time)
+- GPU with CUDA support (Recommended, in case of time-saving)
 
 ### Steps
 
@@ -72,7 +72,7 @@ POST /text-to-image
 
 ```json
 {
-  "prompt": "A futuristic city skyline at sunset"
+  "prompt": "A cute puppy riding a Harley-Davidson"
 }
 ```
 
@@ -82,9 +82,19 @@ POST /text-to-image
 {
   "message": "Image has been generated successfully.",
   "image_path": "static/generated_image_20250306_120000.png",
-  "prompt": "A futuristic city skyline at sunset"
+  "prompt": "A cute puppy riding a Harley-Davidson"
 }
 ```
+
+#### Example:
+
+##### Prompt:
+
+> "A cute puppy riding a Harley-Davidson"
+  
+##### Result:
+
+![Text to Image](https://github.com/MehranZdi/controlled-image-generator/blob/main/examples/generated_image_20250306_151750.png)
 
 ### Sketch-to-Image Transformation
 
@@ -92,7 +102,23 @@ POST /text-to-image
 POST /sketch-to-image
 ```
 
-**Request:** Multipart form data with an image file (`sketch`) and an optional `prompt`.
+**Request:** Multipart form data with an image file (`sketch`) and a `prompt`.
+
+#### Example:
+
+##### Prompt:
+
+> "Donald Duck swimming in a river"
+  
+##### sketch:
+
+![Sketch](https://github.com/MehranZdi/controlled-image-generator/blob/main/examples/sketch.jpg)
+
+##### Result:
+
+![Sketch to Image](https://github.com/MehranZdi/controlled-image-generator/blob/main/examples/generated_image_20250306_153056.png)
+
+
 
 ### Style Transfer
 
@@ -104,10 +130,25 @@ POST /style-transfer
 
 ```json
 {
-  "prompt": "A mountain landscape",
-  "style": "Van Gogh"
+  "prompt": "Kobe Bryant in Lakers",
+  "style": "Van gogh starry night"
 }
 ```
+
+#### Example:
+
+##### Input Prompt:
+
+> "Kobe Bryant in Lakers"
+
+##### Style:
+
+> "Van Gogh starry night"
+
+##### Result:
+![Style Transfer](https://github.com/MehranZdi/controlled-image-generator/blob/main/examples/styled_image_20250306_153623.png)
+
+
 
 ## Contributing
 
