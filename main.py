@@ -41,7 +41,9 @@ async def text_to_image(prompt: str):
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+
+# Sketch-to-Image endpoint
 
 @app.post("/sketch-to-image")
 async def sketch_to_image(sketch: UploadFile=File(...), prompt: str=""):
@@ -55,3 +57,27 @@ async def sketch_to_image(sketch: UploadFile=File(...), prompt: str=""):
         return {"message": "Image has been generated!"}
     except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
+
+# Style-transfer endpoint
+
+@app.post("/style-transfer")
+async def style_transfer(prompt: str, style: str):
+    try:
+        styled_prompt = f"{prompt} in the style of {style}"
+
+        print(f"Generating image for styled prompt: {styled_prompt} ")
+        generated_image = pipe(styled_prompt).images[0]
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        image_path = f"static/styled_image_{timestamp}.png"
+        generated_image.save(image_path)
+
+        return {
+            "message": "Image generated successfully.",
+            "image_path": image_path,
+            "styled_prompt": styled_prompt,
+        }
+
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
