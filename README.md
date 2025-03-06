@@ -110,7 +110,7 @@ POST /sketch-to-image
 
 > "Donald Duck swimming in a river"
   
-##### sketch:
+##### Sketch:
 
 ![Sketch](https://github.com/MehranZdi/controlled-image-generator/blob/main/examples/sketch.jpg)
 
